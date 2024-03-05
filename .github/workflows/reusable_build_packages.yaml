@@ -17,8 +17,8 @@ jobs:
     runs-on: ${{ (matrix.arch == 'aarch64' && 'actuated-arm64-8cpu-16gb') || 'ubuntu-22.04' }}
     strategy:
       matrix:
-        arch: [x86_64, aarch64]
-    container: golang:1.18
+        arch: [x86_64]
+    container: golang:1.21
     steps:
       - name: Install deps
         run: |
@@ -49,4 +49,13 @@ jobs:
         with:
           name: plugins-${{ matrix.arch }}-${{ inputs.suffix }}.tar.gz
           path: output/*.tar.gz
-      
+
+      - name: Publish plugin binary
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: k8saudit-gke-latest
+          prerelease: true
+          title: k8saudit-gke Development Build
+          files: output/*.tar.gz
+          draft: false
