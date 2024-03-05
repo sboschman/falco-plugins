@@ -4,10 +4,10 @@
 name: Comment on the pull request
 
 on:
-  workflow_run:
-    workflows: ["Build Plugins PR"]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["Build Plugins PR"]
+  #   types:
+  #     - completed
 
 jobs:
   upload:
